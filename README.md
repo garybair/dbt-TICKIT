@@ -1,1 +1,1 @@
-# dbt-TICKIT
+# dbt-fundamentals-demo
