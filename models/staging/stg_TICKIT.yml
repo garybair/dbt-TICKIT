@@ -1,0 +1,269 @@
+version: 2
+
+models:
+  - name: stg_category
+    description: Staged category data from our TICKIT database.
+    columns: 
+      - name: category_id
+        description: Primary key, a unique ID value for each row. Each row represents a specific type of event for which tickets are bought and sold.
+        tests:
+          - unique
+          - not_null
+
+      - name: category_group
+        description: Descriptive name for a group of events, such as Shows and Sports.
+
+      - name: category_name
+        description: Short descriptive name for a type of event within a group, such as Opera and Musicals.
+
+      - name: category_description
+        description: Longer descriptive name for the type of event, such as Musical theatre.
+  
+  - name: stg_date
+    description: Staged date data from our TICKIT database.
+    columns:
+      - name: date_id
+        description: Primary key, a unique ID value for each row. Each row represents a day in the calendar year.
+        tests:
+          - unique
+          - not_null
+
+      - name: calender_date
+        description: Calendar date, such as 2008-06-24.
+        tests:
+          - not_null
+
+      - name: day
+        description: Day of week (short form), such as SA.
+        tests:
+          - not_null
+
+      - name: week
+        description: Week number, such as 26.
+        tests:
+          - not_null
+              
+      - name: month
+        description: Month name (short form), such as JUN.
+        tests:
+          - not_null
+
+      - name: qtr
+        description: Quarter number (1 through 4).
+        tests:
+          - not_null
+
+      - name: year
+        description: Four-digit year (2008).
+        tests:
+          - not_null
+
+      - name: holiday
+        description: Flag that denotes whether the day is a public holiday (U.S.).
+
+  - name: stg_event
+    description: Staged event data from our TICKIT database.
+    columns:
+      - name: event_id
+        description: Primary key, a unique ID value for each row. Each row represents a separate event that takes place at a specific venue at a specific time.
+        tests:
+          - unique
+          - not_null
+
+      - name: venue_id
+        description: Foreign key to stg_venue.venue_id.
+        tests:
+          - relationships:
+              to: ref('stg_venue')
+              field: venue_id
+
+      - name: category_id
+        description: Foreign key to stg_category.category_id.
+        tests:
+          - relationships:
+              to: ref('stg_category')
+              field: category_id
+
+      - name: date_id
+        description: Foreign key to stg_date.date_id.
+
+      - name: event_name
+        description: Name of the event, such as Hamlet or La Traviata.
+
+      - name: start_time
+        description: Full date and start time for the event, such as 2008-10-10 19:30:00.
+
+  - name: stg_listing
+    description: Staged listing data from our TICKIT database.
+    columns:
+      - name: list_id
+        description: Primary key, a unique ID value for each row. Each row represents a listing of a batch of tickets for a specific event.
+        tests:
+          - unique
+          - not_null
+
+      - name: seller_id
+        description: Foreign key to stg_user.user_id.
+        tests:
+          - relationships:
+              to: ref('stg_users')
+              field: user_id           
+
+      - name: event_id
+        description: Foreign key to stg_event.event_id.
+        tests:
+          - relationships:
+              to: ref('stg_event')
+              field: event_id
+
+      - name: date_id
+        description: Foreign key to stg_date.date_id.
+
+      - name: num_tickets_avail
+        description: The number of tickets available for sale, such as 2 or 20.
+        tests:
+          - not_null
+
+      - name: price_per_ticket
+        description: The fixed price of an individual ticket, such as 27.00 or 206.00.
+
+      - name: total_price
+        description: The total price for this listing (num_tickets_avail*price_per_ticket).
+
+      - name: list_time
+        description: The full date and time when the listing was posted, such as 2008-03-18 07:19:35.
+
+  - name: stg_sales
+    description: Staged order data from our TICKIT database.
+    columns:
+      - name: sales_id
+        description: Primary key, a unique ID value for each row. Each row represents a sale of one or more tickets for a specific event, as offered in a specific listing.
+        tests:
+          - unique
+          - not_null
+
+      - name: list_id
+        description: Foreign key to stg_listing.list_id.
+        tests:
+          - relationships:
+              to: ref('stg_listing')
+              field: list_id
+
+      - name: seller_id
+        description: Foreign key to stg_users.user_id.
+        tests:
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+    
+      - name: buyer_id
+        description: Foreign key to stg_users.user_id.
+        tests:
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+
+      - name: event_id
+        description: Foreign key to stg_event.event_id.
+        tests:
+          - relationships:
+              to: ref('stg_event')
+              field: event_id
+
+      - name: date_id
+        description: Foreign key to stg_date.date_id.
+      
+      - name: num_tickets_sold
+        description: The number of tickets that were sold, from 1 to 8. (A maximum of 8 tickets can be sold in a single transaction.)
+        tests:
+          - not_null
+
+      - name: total_price_paid
+        description: The total price paid for the tickets, such as 75.00 or 488.00. The individual price of a ticket is total_price_paid/num_tickets_sold.
+
+      - name: commission_paid
+        description: The 15% commission that the business collects from the sale, such as 11.25 or 73.20. The seller receives 85% of the total_price_paid value.
+
+      - name: sale_time
+        description: The full date and time when the sale was completed, such as 2008-05-24 06:21:47.
+
+  - name: stg_users
+    description: Staged user data from our TICKIT database.
+    columns:
+      - name: user_id
+        description: Primary key, a unique ID value for each row. Each row represents a registered user (a buyer or seller or both) who has listed or bought tickets for at least one event.
+        tests:
+          - unique
+          - not_null
+
+      - name: username
+        description: An 8-character alphanumeric username, such as PGL08LJI.
+
+      - name: first_name
+        description: The user's first name, such as Victor.
+
+      - name: last_name
+        description: The user's last name, such as Hernandez.
+
+      - name: city
+        description: The user's home city, such as Naperville.
+
+      - name: state
+        description: The user's home state, such as GA.
+
+      - name: email
+        description: The user's email address; this column contains random Latin values, such as turpis@accumsanlaoreet.org.
+
+      - name: phone_number
+        description: The user's 14-character phone number, such as (818) 765-4255.
+
+      - name: likesports
+        description: Identifies the user's likes and dislikes with true and false values.
+
+      - name: liketheatre
+        description: Identifies the user's likes and dislikes with true and false values.
+
+      - name: likeconcerts
+        description: Identifies the user's likes and dislikes with true and false values.
+
+      - name: likejazz
+        description: Identifies the user's likes and dislikes with true and false values.
+
+      - name: likeclassical
+        description: Identifies the user's likes and dislikes with true and false values.
+
+      - name: likeopera
+        description: Identifies the user's likes and dislikes with true and false values.
+
+      - name: likerock
+        description: Identifies the user's likes and dislikes with true and false values.
+
+      - name: likevegas
+        description: Identifies the user's likes and dislikes with true and false values.
+
+      - name: likebroadway
+        description: Identifies the user's likes and dislikes with true and false values.
+
+      - name: likemusicals
+        description: Identifies the user's likes and dislikes with true and false values.
+
+  - name: stg_venue
+    description: Staged venue data from our TICKIT database.
+    columns:
+      - name: venue_id
+        description: Primary key, a unique ID value for each row. Each row represents a specific venue where events take place.
+        tests:
+          - unique
+          - not_null
+
+      - name: venue_name
+        description: Exact name of the venue, such as Cleveland Browns Stadium.
+
+      - name: venue_city
+        description: City name, such as Cleveland.
+
+      - name: venue_state
+        description: Two-letter state or province abbreviation (United States and Canada), such as OH.
+
+      - name: venue_seats
+        description: Maximum number of seats available at the venue, if known, such as 73200. For demonstration purposes, this column contains some null values and zeroes.

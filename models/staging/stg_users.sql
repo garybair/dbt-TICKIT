@@ -1,0 +1,20 @@
+SELECT
+    userid AS user_id,
+	username,
+	firstname AS first_name,
+	lastname AS last_name,
+	city,
+	state,
+	email,
+	phone AS phone_number,
+	likesports,
+	liketheatre,
+	likeconcerts,
+	likejazz,
+	likeclassical,
+	likeopera,
+	likerock,
+	likevegas,
+	likebroadway,
+	likemusicals
+FROM {{ source('TICKIT', 'users') }}
