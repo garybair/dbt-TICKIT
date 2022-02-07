@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: TICKIT
     description: Sample database for the fictional TICKIT web site, where users buy and sell tickets online for sporting events, shows, and concerts.
-    database: TICKIT
+    database: ads-507
     schema: TICKIT
     tables:
       - name: category

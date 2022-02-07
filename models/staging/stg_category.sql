@@ -3,4 +3,4 @@ SELECT
 	catgroup AS category_group,
 	catname AS category_name,
 	catdesc AS category_description
-FROM {{ SOURCE('TICKIT', 'category') }}
+FROM {{ source('TICKIT', 'category') }}

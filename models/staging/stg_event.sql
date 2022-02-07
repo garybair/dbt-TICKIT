@@ -4,5 +4,5 @@ SELECT
 	catid AS category_id,
 	dateid AS date_id,
 	eventname AS event_name,
-	starttime AS start_time;
-FROM {{ SOURCE('TICKIT', 'event') }}
+	starttime AS start_time
+FROM {{ source('TICKIT', 'event') }}

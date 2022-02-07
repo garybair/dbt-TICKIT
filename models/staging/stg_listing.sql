@@ -7,4 +7,4 @@ SELECT
 	priceperticket AS price_per_ticket,
 	totalprice AS total_price,
 	listtime AS list_time
-FROM {{ SOURCE('TICKIT', 'listing') }}
+FROM {{ source('TICKIT', 'listing') }}

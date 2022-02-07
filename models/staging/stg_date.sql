@@ -1,5 +1,5 @@
 SELECT
-    dateid AS date_id
+    dateid AS date_id,
 	caldate AS calender_date,
 	day,
 	week,
@@ -7,4 +7,4 @@ SELECT
 	qtr,
 	year,
 	holiday
-FROM {{ SOURCE('TICKIT', 'date') }}
+FROM {{ source('TICKIT', 'date') }}

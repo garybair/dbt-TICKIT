@@ -8,5 +8,5 @@ SELECT
 	qtysold AS num_tickets_sold,
 	pricepaid AS total_price_paid,
 	commission AS commission_paid,
-	saletime AS sale_time;
-FROM {{ SOURCE('TICKIT', 'sales') }}
+	saletime AS sale_time
+FROM {{ source('TICKIT', 'sales') }}

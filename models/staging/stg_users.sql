@@ -17,4 +17,4 @@ SELECT
 	likevegas,
 	likebroadway,
 	likemusicals
-FROM {{ SOURCE('TICKIT', 'users') }}
+FROM {{ source('TICKIT', 'users') }}

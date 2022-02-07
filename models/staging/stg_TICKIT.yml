@@ -86,10 +86,6 @@ models:
 
       - name: date_id
         description: Foreign key to stg_date.date_id.
-        tests:
-          - relationships:
-              to: ref('stg_date')
-              field: date_id
 
       - name: event_name
         description: Name of the event, such as Hamlet or La Traviata.
@@ -103,15 +99,15 @@ models:
       - name: list_id
         description: Primary key, a unique ID value for each row. Each row represents a listing of a batch of tickets for a specific event.
         tests:
-           - unique
-           - not_null
+          - unique
+          - not_null
 
       - name: seller_id
         description: Foreign key to stg_user.user_id.
-          tests:
-            - relationships:
-                to: ref('stg_users')
-                field: user_id           
+        tests:
+          - relationships:
+              to: ref('stg_users')
+              field: user_id           
 
       - name: event_id
         description: Foreign key to stg_event.event_id.
@@ -120,16 +116,12 @@ models:
               to: ref('stg_event')
               field: event_id
 
-       - name: date_id
-         description: Foreign key to stg_date.date_id.
-         tests:
-           - relationships:
-              to: ref('stg_date')
-              field: date_id
+      - name: date_id
+        description: Foreign key to stg_date.date_id.
 
-       - name: num_tickets_avail
+      - name: num_tickets_avail
         description: The number of tickets available for sale, such as 2 or 20.
-         tests:
+        tests:
           - not_null
 
       - name: price_per_ticket
@@ -139,7 +131,7 @@ models:
         description: The total price for this listing (num_tickets_avail*price_per_ticket).
 
       - name: list_time
-         description: The full date and time when the listing was posted, such as 2008-03-18 07:19:35.
+        description: The full date and time when the listing was posted, such as 2008-03-18 07:19:35.
 
   - name: stg_sales
     description: Staged order data from our TICKIT database.
@@ -180,10 +172,6 @@ models:
 
       - name: date_id
         description: Foreign key to stg_date.date_id.
-        tests:
-          - relationships:
-              to: ref('stg_date')
-              field: date_id
       
       - name: num_tickets_sold
         description: The number of tickets that were sold, from 1 to 8. (A maximum of 8 tickets can be sold in a single transaction.)

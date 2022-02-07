@@ -4,4 +4,4 @@ SELECT
 	venuecity AS venue_city,
 	venuestate AS venue_state,
 	venueseats AS venue_seats
-FROM {{ SOURCE('TICKIT', 'venue') }}
+FROM {{ source('TICKIT', 'venue') }}
